@@ -20,7 +20,7 @@ export default function useIntersectionObserver({ enabled = true, rootMargin = '
     observer.observe(node);
 
     return () => observer.disconnect();
-  }, [enabled, rootMargin, threshold, sentinelRef.current]);
+  }, [enabled, rootMargin, threshold]);
 
   return { sentinelRef, isIntersecting };
 }

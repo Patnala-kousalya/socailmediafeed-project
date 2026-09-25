@@ -111,6 +111,75 @@ h1 {
   margin-bottom: 1.2rem;
 }
 
+.insight-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0 1.1rem;
+}
+
+.insight-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.9rem 1rem;
+  border-radius: 1rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(241,245,255,0.88));
+  border: 1px solid rgba(79, 110, 247, 0.12);
+  box-shadow: 0 10px 22px rgba(79, 110, 247, 0.06);
+}
+
+.insight-card span {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748b;
+}
+
+.insight-card strong {
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  color: #111827;
+}
+
+.toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.2rem;
+}
+
+.primary-button,
+.secondary-button,
+.ghost-button {
+  border: none;
+  border-radius: 0.9rem;
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.primary-button {
+  background: linear-gradient(135deg, #4f6ef7, #6d85ff);
+  color: white;
+  box-shadow: 0 14px 22px rgba(79, 110, 247, 0.22);
+}
+
+.secondary-button {
+  background: #eaf0ff;
+  color: #2f4ed0;
+}
+
+.ghost-button {
+  background: rgba(148, 163, 184, 0.1);
+  color: #334155;
+}
+
+.primary-button:disabled,
+.secondary-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .search-panel {
   position: relative;
 }
@@ -292,8 +361,17 @@ h1 {
 .comment-button:hover,
 .empty-state button:hover,
 .inline-message button:hover,
-.modal-close:hover {
+.modal-close:hover,
+.primary-button:hover,
+.secondary-button:hover,
+.ghost-button:hover {
   transform: translateY(-1px);
+}
+
+.load-more-row {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0 0.5rem;
 }
 
 .scroll-loader,

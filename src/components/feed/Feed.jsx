@@ -51,6 +51,11 @@ export default function Feed() {
     [posts, searchTerm],
   );
 
+  const activeTagCount = useMemo(
+    () => new Set(posts.flatMap((post) => post.hashtags || [])).size,
+    [posts],
+  );
+
   const showToast = (type, message) => {
     const id = Date.now() + Math.random();
     setToasts((current) => [...current, { id, type, message }]);
@@ -58,6 +63,17 @@ export default function Feed() {
 
   const removeToast = (id) => {
     setToasts((current) => current.filter((toast) => toast.id !== id));
+  };
+
+  const handleLoadMore = () => {
+    if (!loading && hasMore && posts.length > 0) {
+      void loadPage(page, false);
+    }
+  };
+
+  const clearFilters = () => {
+    setSearchTerm('');
+    setSortBy('all');
   };
 
   const handleToggleLike = async (postId) => {
@@ -133,6 +149,32 @@ export default function Feed() {
           </div>
         </section>
 
+        <div className="insight-row" aria-label="Feed insights">
+          <div className="insight-card">
+            <span>Posts loaded</span>
+            <strong>{posts.length}</strong>
+          </div>
+          <div className="insight-card">
+            <span>Visible now</span>
+            <strong>{filteredPosts.length}</strong>
+          </div>
+          <div className="insight-card">
+            <span>Trending tags</span>
+            <strong>{activeTagCount}</strong>
+          </div>
+        </div>
+
+        <div className="toolbar-actions">
+          <button type="button" className="secondary-button" onClick={() => void loadPage(page, false)} disabled={loading || !hasMore}>
+            Refresh feed
+          </button>
+          {(searchTerm || sortBy !== 'all') && (
+            <button type="button" className="ghost-button" onClick={clearFilters}>
+              Clear filters
+            </button>
+          )}
+        </div>
+
         {showInitialSkeleton && <LoadingSkeleton />}
 
         {!showInitialSkeleton && error && (
@@ -167,6 +209,14 @@ export default function Feed() {
         )}
 
         {loading && <div className="scroll-loader">Loading more posts...</div>}
+
+        {!showInitialSkeleton && filteredPosts.length > 0 && hasMore && (
+          <div className="load-more-row">
+            <button type="button" className="primary-button" onClick={handleLoadMore} disabled={loading}>
+              {loading ? 'Loading...' : 'Load more posts'}
+            </button>
+          </div>
+        )}
 
         {!loading && hasMore && !showInitialSkeleton && filteredPosts.length > 0 && (
           <div ref={sentinelRef} className="sentinel" aria-hidden="true" />
